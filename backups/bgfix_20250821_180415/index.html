@@ -426,57 +426,6 @@
             display: flex;
         }
     </style>
-
-<style>
-/* Fixed Background Upload Styles */
-.bg-preview {
-    position: relative;
-    width: 200px;
-    height: 120px;
-    background: rgba(10, 10, 10, 0.5);
-    border: 2px dashed rgba(212, 175, 55, 0.3);
-    border-radius: 5px;
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(212, 175, 55, 0.5);
-}
-
-.bg-preview:hover {
-    border-color: #D4AF37;
-    background: rgba(212, 175, 55, 0.05);
-}
-
-.bg-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.bg-remove-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 25px;
-    height: 25px;
-    background: #8B0000;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    z-index: 10;
-}
-
-.bg-preview:hover .bg-remove-btn {
-    display: flex !important;
-}
-</style>
 </head>
 <body>
     <div class="header">
@@ -510,8 +459,8 @@
             <button class="tab active" onclick="switchTab('services')"> Услуги</button>
             <button class="tab" onclick="switchTab('masters')"> Мастера</button>
             <button class="tab" onclick="switchTab('gallery')"> Галерея</button>
-            <button class="tab" onclick="switchTab('backgrounds')">Фоны секций</button>
-            
+            <button class="tab" onclick="switchTab('backgrounds')">Фоны</button>
+            <button class="tab" onclick="switchTab('backgrounds')">Фоны</button>
             <button class="tab" onclick="switchTab('bookings')"> Записи</button>
             <button class="tab" onclick="switchTab('settings')"> Настройки</button>
         </div>
@@ -590,95 +539,6 @@
             </div>
         </div>
         
-        
-        <!-- Backgrounds Tab NEW -->
-        <div class="tab-content" id="tab-backgrounds">
-            <div class="card">
-                <h2>Фоновые изображения секций</h2>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px;">
-                    Загрузите фоновые изображения для каждой секции. Просто выберите файл кнопкой "Выбрать фото".
-                </p>
-                
-                <!-- Services -->
-                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Услуги</h3>
-                    <div style="display: flex; gap: 20px; align-items: center;">
-                        <div id="preview-services" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
-                            Нет изображения
-                        </div>
-                        <div style="flex: 1;">
-                            <input type="file" id="bgfile-services" accept="image/*" onchange="uploadBgImage('services', this)" style="margin-bottom: 10px;">
-                            <br>
-                            <input type="text" id="caption-services" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Masters -->
-                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Мастера</h3>
-                    <div style="display: flex; gap: 20px; align-items: center;">
-                        <div id="preview-masters" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
-                            Нет изображения
-                        </div>
-                        <div style="flex: 1;">
-                            <input type="file" id="bgfile-masters" accept="image/*" onchange="uploadBgImage('masters', this)" style="margin-bottom: 10px;">
-                            <br>
-                            <input type="text" id="caption-masters" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Gallery -->
-                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Галерея</h3>
-                    <div style="display: flex; gap: 20px; align-items: center;">
-                        <div id="preview-gallery" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
-                            Нет изображения
-                        </div>
-                        <div style="flex: 1;">
-                            <input type="file" id="bgfile-gallery" accept="image/*" onchange="uploadBgImage('gallery', this)" style="margin-bottom: 10px;">
-                            <br>
-                            <input type="text" id="caption-gallery" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Booking -->
-                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Запись</h3>
-                    <div style="display: flex; gap: 20px; align-items: center;">
-                        <div id="preview-booking" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
-                            Нет изображения
-                        </div>
-                        <div style="flex: 1;">
-                            <input type="file" id="bgfile-booking" accept="image/*" onchange="uploadBgImage('booking', this)" style="margin-bottom: 10px;">
-                            <br>
-                            <input type="text" id="caption-booking" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Contact -->
-                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Контакты</h3>
-                    <div style="display: flex; gap: 20px; align-items: center;">
-                        <div id="preview-contact" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
-                            Нет изображения
-                        </div>
-                        <div style="flex: 1;">
-                            <input type="file" id="bgfile-contact" accept="image/*" onchange="uploadBgImage('contact', this)" style="margin-bottom: 10px;">
-                            <br>
-                            <input type="text" id="caption-contact" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-primary" onclick="saveAllBackgrounds()"> Сохранить все фоны</button>
-                <button class="btn btn-secondary" onclick="clearAllBackgrounds()" style="margin-left: 10px;"> Очистить все</button>
-                <div class="success-msg" id="bgSuccessMsg"> Фоны сохранены!</div>
-            </div>
-        </div>
         <!-- Settings Tab -->
         <div class="tab-content" id="tab-settings">
             <div class="card">
@@ -705,7 +565,31 @@
             </div>
         </div>
     
-        <!-- Masters Background -->
+        <!-- Backgrounds Tab -->
+        <div class="tab-content" id="tab-backgrounds">
+            <div class="card">
+                <h2>Фоновые изображения для секций</h2>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px;">
+                    Загрузите фоновые изображения для каждой секции сайта. Изображения будут плавно анимироваться.
+                </p>
+                
+                <div class="backgrounds-manager" id="backgroundsManager">
+                    <!-- Services Background -->
+                    <div class="section-bg-manager">
+                        <h3>Услуги</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('services')">
+                                <input type="file" id="bg-services" accept="image/*" style="display: none;" onchange="handleBgUpload('services', this)">
+                                <div class="bg-preview-placeholder" id="preview-services">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('services', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-services" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Masters Background -->
                     <div class="section-bg-manager">
                         <h3>Мастера</h3>
                         <div class="bg-upload-area">
@@ -771,7 +655,31 @@
             </div>
         </div>
 
-        <!-- Masters Background -->
+        <!-- Backgrounds Tab -->
+        <div class="tab-content" id="tab-backgrounds">
+            <div class="card">
+                <h2>Фоновые изображения для секций</h2>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px;">
+                    Загрузите фоновые изображения для каждой секции сайта. Изображения будут плавно анимироваться.
+                </p>
+                
+                <div class="backgrounds-manager" id="backgroundsManager">
+                    <!-- Services Background -->
+                    <div class="section-bg-manager">
+                        <h3>Услуги</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('services')">
+                                <input type="file" id="bg-services" accept="image/*" style="display: none;" onchange="handleBgUpload('services', this)">
+                                <div class="bg-preview-placeholder" id="preview-services">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('services', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-services" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Masters Background -->
                     <div class="section-bg-manager">
                         <h3>Мастера</h3>
                         <div class="bg-upload-area">
@@ -1174,165 +1082,9 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.innerHTML = '';
     });
 });
-
-// Background Upload Functions - FIXED
-window.selectBgImage = function(section) {
-    const input = document.getElementById('bg-' + section);
-    if (input) input.click();
-};
-
-window.handleBgUpload = function(section, input) {
-    const file = input.files[0];
-    if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // Save to storage
-            if (!window.sectionBackgrounds) {
-                window.sectionBackgrounds = {};
-            }
-            if (!window.sectionBackgrounds[section]) {
-                window.sectionBackgrounds[section] = {};
-            }
-            window.sectionBackgrounds[section].image = e.target.result;
-            
-            // Update preview
-            const preview = document.getElementById('preview-' + section);
-            if (preview) {
-                preview.innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
-                preview.parentElement.querySelector('.bg-remove-btn').style.display = 'flex';
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-};
-
-window.removeBg = function(section, event) {
-    if (event) event.stopPropagation();
-    if (window.sectionBackgrounds && window.sectionBackgrounds[section]) {
-        window.sectionBackgrounds[section] = { image: null, caption: '' };
-    }
-    const preview = document.getElementById('preview-' + section);
-    if (preview) {
-        preview.innerHTML = 'Нажмите для загрузки';
-    }
-    const caption = document.getElementById('caption-' + section);
-    if (caption) caption.value = '';
-    const btn = document.querySelector('#preview-' + section).parentElement.querySelector('.bg-remove-btn');
-    if (btn) btn.style.display = 'none';
-};
-
-window.saveSectionBackgrounds = function() {
-    if (!window.sectionBackgrounds) {
-        window.sectionBackgrounds = {};
-    }
-    
-    // Collect all captions
-    ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(section => {
-        const captionInput = document.getElementById('caption-' + section);
-        if (captionInput) {
-            if (!window.sectionBackgrounds[section]) {
-                window.sectionBackgrounds[section] = {};
-            }
-            window.sectionBackgrounds[section].caption = captionInput.value;
-        }
-    });
-    
-    // Save to localStorage
-    localStorage.setItem('sectionBackgrounds', JSON.stringify(window.sectionBackgrounds));
-    
-    // Show success
-    const successMsg = document.getElementById('backgroundsSuccess');
-    if (successMsg) {
-        successMsg.classList.add('show');
-        setTimeout(() => successMsg.classList.remove('show'), 3000);
-    }
-    alert('Фоны сохранены!');
-};
-
-// Load existing backgrounds on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const saved = localStorage.getItem('sectionBackgrounds');
-    if (saved) {
-        window.sectionBackgrounds = JSON.parse(saved);
-        
-        // Update all previews
-        ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(section => {
-            if (window.sectionBackgrounds[section] && window.sectionBackgrounds[section].image) {
-                const preview = document.getElementById('preview-' + section);
-                if (preview) {
-                    preview.innerHTML = '<img src="' + window.sectionBackgrounds[section].image + '" style="width:100%;height:100%;object-fit:cover;">';
-                }
-                const caption = document.getElementById('caption-' + section);
-                if (caption && window.sectionBackgrounds[section].caption) {
-                    caption.value = window.sectionBackgrounds[section].caption;
-                }
-            }
-        });
-    }
-});
-    
-        // Background Images System - SIMPLE VERSION
-        var bgImages = {};
-        
-        function uploadBgImage(section, input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    bgImages[section] = e.target.result;
-                    document.getElementById('preview-' + section).innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        
-        function saveAllBackgrounds() {
-            var data = {};
-            ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(function(section) {
-                data[section] = {
-                    image: bgImages[section] || null,
-                    caption: document.getElementById('caption-' + section).value
-                };
-            });
-            localStorage.setItem('sectionBackgrounds', JSON.stringify(data));
-            document.getElementById('bgSuccessMsg').style.display = 'block';
-            setTimeout(function() {
-                document.getElementById('bgSuccessMsg').style.display = 'none';
-            }, 3000);
-        }
-        
-        function clearAllBackgrounds() {
-            if (confirm('Удалить все фоновые изображения?')) {
-                bgImages = {};
-                ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(function(section) {
-                    document.getElementById('preview-' + section).innerHTML = 'Нет изображения';
-                    document.getElementById('caption-' + section).value = '';
-                    document.getElementById('bgfile-' + section).value = '';
-                });
-                localStorage.removeItem('sectionBackgrounds');
-            }
-        }
-        
-        // Load saved backgrounds
-        window.addEventListener('load', function() {
-            var saved = localStorage.getItem('sectionBackgrounds');
-            if (saved) {
-                var data = JSON.parse(saved);
-                Object.keys(data).forEach(function(section) {
-                    if (data[section].image) {
-                        bgImages[section] = data[section].image;
-                        document.getElementById('preview-' + section).innerHTML = '<img src="' + data[section].image + '" style="width:100%;height:100%;object-fit:cover;">';
-                    }
-                    if (data[section].caption) {
-                        document.getElementById('caption-' + section).value = data[section].caption;
-                    }
-                });
-            }
-        });
-    </script>
+</script>
 </body>
 </html>
-
-
 
 
 

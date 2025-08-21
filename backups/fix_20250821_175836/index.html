@@ -235,27 +235,5 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
     <script src="assets/js/app.js"></script>
-    
-    <!-- Failsafe loader hide -->
-    <script>
-        // Emergency loader hide
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loader = document.getElementById('loader');
-                if (loader) {
-                    loader.style.display = 'none';
-                }
-            }, 2000);
-        });
-        
-        // Force hide after 3 seconds no matter what
-        setTimeout(function() {
-            const loader = document.getElementById('loader');
-            if (loader) {
-                loader.style.display = 'none';
-            }
-        }, 3000);
-    </script>
 </body>
 </html>
-
