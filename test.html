@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BLACKSMITH - Тест localStorage</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #0A0A0A; 
+            color: white;
+        }
+        .status { 
+            padding: 20px; 
+            background: #1C1C1C; 
+            border-radius: 10px; 
+            margin: 10px 0;
+        }
+        .success { background: #2E7D32; }
+        .error { background: #C62828; }
+        button {
+            padding: 10px 20px;
+            background: #D4AF37;
+            color: black;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>BLACKSMITH - Проверка localStorage</h1>
+    
+    <div class="status" id="status">
+        Проверяю localStorage...
+    </div>
+    
+    <div>
+        <button onclick="testSave()">Тест сохранения</button>
+        <button onclick="testLoad()">Тест загрузки</button>
+        <button onclick="clearData()">Очистить данные</button>
+        <button onclick="window.location.href='/admin/'">Открыть админку</button>
+        <button onclick="window.location.href='/'">Открыть сайт</button>
+    </div>
+    
+    <div class="status" style="margin-top: 20px;">
+        <h3>Текущие данные:</h3>
+        <pre id="data" style="white-space: pre-wrap;"></pre>
+    </div>
+    
+    <script>
+        function updateStatus(msg, isError = false) {
+            const status = document.getElementById('status');
+            status.textContent = msg;
+            status.className = 'status ' + (isError ? 'error' : 'success');
+        }
+        
+        function showData() {
+            const data = localStorage.getItem('blacksmithData');
+            if (data) {
+                const parsed = JSON.parse(data);
+                document.getElementById('data').textContent = JSON.stringify(parsed, null, 2);
+                updateStatus(' Данные найдены в localStorage');
+            } else {
+                document.getElementById('data').textContent = 'Нет данных';
+                updateStatus('localStorage пуст', true);
+            }
+        }
+        
+        function testSave() {
+            const testData = {
+                services: [
+                    {id: 1, title: 'Тестовая услуга', price: '100'},
+                ],
+                masters: [],
+                gallery: [],
+                settings: {
+                    phone: '+972 50-123-4567'
+                }
+            };
+            
+            try {
+                localStorage.setItem('blacksmithData', JSON.stringify(testData));
+                updateStatus(' Данные успешно сохранены!');
+                showData();
+            } catch(e) {
+                updateStatus(' Ошибка: ' + e.message, true);
+            }
+        }
+        
+        function testLoad() {
+            try {
+                const data = localStorage.getItem('blacksmithData');
+                if (data) {
+                    JSON.parse(data);
+                    updateStatus(' Данные успешно загружены!');
+                } else {
+                    updateStatus(' Нет данных для загрузки', true);
+                }
+                showData();
+            } catch(e) {
+                updateStatus(' Ошибка: ' + e.message, true);
+            }
+        }
+        
+        function clearData() {
+            if (confirm('Удалить все данные?')) {
+                localStorage.removeItem('blacksmithData');
+                updateStatus('Данные удалены');
+                showData();
+            }
+        }
+        
+        // Проверяем при загрузке
+        showData();
+    </script>
+</body>
+</html>
