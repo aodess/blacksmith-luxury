@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BLACKSMITH | Премиальный массаж в Тель-Авиве</title>
-    <meta name="description" content="BLACKSMITH - премиальный массажный салон в Тель-Авиве. Профессиональные мастера, уникальные техники, luxury обслуживание.">
-    <meta property="og:title" content="BLACKSMITH - Премиальный массаж">
-    <meta property="og:description" content="Испытайте силу профессионального массажа">
-    <meta property="og:image" content="/assets/images/og-image.jpg">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
+    <meta name="description" content="BLACKSMITH - премиальный массажный салон в Тель-Авиве">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;800&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
@@ -27,9 +23,6 @@
         </div>
     </div>
 
-    <!-- Animated Background -->
-    <div class="animated-bg" id="animatedBg"></div>
-
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -45,74 +38,47 @@
                 <a href="#contact" class="nav-link">Контакты</a>
             </div>
             <div class="nav-actions">
-            <div class="lang-switcher" style="display: flex; gap: 5px; margin-right: 15px;">
-                <button onclick="setLanguage('en')" style="padding: 5px 10px; background: transparent; color: #D4AF37; border: 1px solid #D4AF37; cursor: pointer;">EN</button>
-                <button onclick="setLanguage('ru')" style="padding: 5px 10px; background: transparent; color: #D4AF37; border: 1px solid #D4AF37; cursor: pointer;">RU</button>
-                <button onclick="setLanguage('he')" style="padding: 5px 10px; background: transparent; color: #D4AF37; border: 1px solid #D4AF37; cursor: pointer;">HE</button>
-            </div>
                 <a href="tel:+972501234567" class="nav-phone"> 050-123-4567</a>
-                <button class="nav-booking-btn">Записаться</button>
-                <div class="nav-burger" id="navBurger">
-                    <span></span><span></span><span></span>
-                </div>
+                <button class="nav-booking-btn" onclick="openBooking()">Записаться</button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <div class="hero-bg-video">
-            <video autoplay muted loop playsinline>
-                <source src="assets/video/hero-bg.mp4" type="video/mp4">
-            </video>
-        </div>
         <div class="hero-content">
-            <h1 class="hero-title" data-aos="fade-up">
+            <h1 class="hero-title">
                 <span class="hero-line1">КУЗНИЦА</span>
                 <span class="hero-line2">ТВОЕГО <span class="gold">ТЕЛА</span></span>
             </h1>
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                Премиальный массаж, который меняет жизнь
-            </p>
-            <div class="hero-actions" data-aos="fade-up" data-aos-delay="400">
-                <button class="btn-primary btn-glow" onclick="openBooking()">
-                    Забронировать сеанс
-                </button>
-                <button class="btn-secondary" onclick="playVideo()">
-                     Смотреть видео
-                </button>
+            <p class="hero-subtitle">Премиальный массаж, который меняет жизнь</p>
+            <div class="hero-actions">
+                <button class="btn-primary btn-glow" onclick="openBooking()">Забронировать сеанс</button>
+                <button class="btn-secondary">Узнать больше</button>
             </div>
-        </div>
-        <div class="hero-scroll">
-            <span>Scroll</span>
-            <div class="scroll-line"></div>
         </div>
     </section>
 
     <!-- Services -->
     <section class="services" id="services">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
+            <h2 class="section-title">
                 <span class="title-small">Наши</span>
                 <span class="title-big">УСЛУГИ</span>
             </h2>
-            <div class="services-grid" id="servicesGrid">
-                <!-- Заполняется через JS -->
-            </div>
+            <div class="services-grid" id="servicesGrid"></div>
         </div>
     </section>
 
     <!-- Masters -->
     <section class="masters" id="masters">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
+            <h2 class="section-title">
                 <span class="title-small">Наши</span>
                 <span class="title-big">МАСТЕРА</span>
             </h2>
-            <div class="masters-slider swiper" data-aos="fade-up">
-                <div class="swiper-wrapper" id="mastersSlider">
-                    <!-- Заполняется через JS -->
-                </div>
+            <div class="masters-slider swiper">
+                <div class="swiper-wrapper" id="mastersSlider"></div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
@@ -121,62 +87,45 @@
     <!-- Gallery -->
     <section class="gallery" id="gallery">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
+            <h2 class="section-title">
                 <span class="title-small">Наше</span>
                 <span class="title-big">ПРОСТРАНСТВО</span>
             </h2>
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Заполняется через JS -->
-            </div>
+            <div class="gallery-grid" id="galleryGrid"></div>
         </div>
     </section>
 
     <!-- Booking -->
     <section class="booking" id="booking">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
+            <h2 class="section-title">
                 <span class="title-small">Онлайн</span>
                 <span class="title-big">ЗАПИСЬ</span>
             </h2>
-            <div class="booking-container" data-aos="fade-up">
-                <div class="booking-calendar" id="bookingCalendar">
-                    <!-- Календарь -->
-                </div>
-                <div class="booking-form">
-                    <form id="bookingForm">
-                        <div class="form-group">
-                            <label>Ваше имя</label>
-                            <input type="text" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Телефон</label>
-                            <input type="tel" name="phone" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email">
-                        </div>
-                        <div class="form-group">
-                            <label>Услуга</label>
-                            <select name="service" id="serviceSelect" required>
-                                <option value="">Выберите услугу</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Мастер</label>
-                            <select name="master" id="masterSelect" required>
-                                <option value="">Выберите мастера</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Дата и время</label>
-                            <input type="text" name="datetime" id="datetimeInput" readonly required>
-                        </div>
-                        <button type="submit" class="btn-primary btn-block">
-                            Забронировать
-                        </button>
-                    </form>
-                </div>
+            <div class="booking-container">
+                <form id="bookingForm" class="booking-form">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Услуга</label>
+                        <select name="service" id="serviceSelect" required>
+                            <option value="">Выберите услугу</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Мастер</label>
+                        <select name="master" id="masterSelect">
+                            <option value="">Любой мастер</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">Забронировать</button>
+                </form>
             </div>
         </div>
     </section>
@@ -184,21 +133,21 @@
     <!-- Contact -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
+            <h2 class="section-title">
                 <span class="title-small">Наши</span>
                 <span class="title-big">КОНТАКТЫ</span>
             </h2>
             <div class="contact-grid">
-                <div class="contact-info" data-aos="fade-right">
+                <div class="contact-info">
                     <div class="contact-item">
-                        <span class="contact-icon"></span>
+                        <span class="contact-icon">📍</span>
                         <div>
                             <h3>Адрес</h3>
                             <p id="contactAddress">Rothschild Blvd 50, Tel Aviv</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <span class="contact-icon">📞</span>
+                        <span class="contact-icon"></span>
                         <div>
                             <h3>Телефон</h3>
                             <p id="contactPhone">+972 50-123-4567</p>
@@ -212,9 +161,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="contact-map" data-aos="fade-left">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.3063767621!2d34.77052401516!3d32.06094798119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4ca0193b7c1f%3A0x3e718f3b59f5a5a!2sRothschild%20Blvd%2050%2C%20Tel%20Aviv-Yafo!5e0!3m2!1sen!2sil!4v1635959042618!5m2!1sen!2sil" 
-                        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="contact-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.3063767621!2d34.77052401516!3d32.06094798119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4ca0193b7c1f%3A0x3e718f3b59f5a5a!2sRothschild%20Blvd%2050%2C%20Tel%20Aviv-Yafo!5e0!3m2!1sen!2sil!4v1635959042618!5m2!1sen!2sil" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
@@ -228,42 +176,14 @@
     </footer>
 
     <!-- WhatsApp Button -->
-    <a href="https://wa.me/972501234567" class="whatsapp-btn" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-    </a>
+    <a href="https://wa.me/972501234567" class="whatsapp-btn" target="_blank"></a>
 
-    <!-- Admin Button (Hidden) -->
+    <!-- Admin Button -->
     <a href="/admin/" class="admin-btn" title="Admin Panel"></a>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
-    <script src="assets/js/modules/storage.js"></script>
     <script src="assets/js/app.js"></script>
-    
-    <!-- Failsafe loader hide -->
-    <script>
-        // Emergency loader hide
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loader = document.getElementById('loader');
-                if (loader) {
-                    loader.style.display = 'none';
-                }
-            }, 2000);
-        });
-        
-        // Force hide after 3 seconds no matter what
-        setTimeout(function() {
-            const loader = document.getElementById('loader');
-            if (loader) {
-                loader.style.display = 'none';
-            }
-        }, 3000);
-    </script>
 </body>
 </html>
-
-
-

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKSMITH - Professional Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>BLACKSMITH</h2>
+                <span class="version">Admin v2.0</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+                    <span class="icon"></span> Dashboard
+                </a>
+                <a href="#services" class="nav-item" data-tab="services">
+                    <span class="icon"></span> Services
+                </a>
+                <a href="#masters" class="nav-item" data-tab="masters">
+                    <span class="icon"></span> Masters
+                </a>
+                <a href="#gallery" class="nav-item" data-tab="gallery">
+                    <span class="icon"></span> Gallery
+                </a>
+                <a href="#backgrounds" class="nav-item" data-tab="backgrounds">
+                    <span class="icon"></span> Backgrounds
+                </a>
+                <a href="#bookings" class="nav-item" data-tab="bookings">
+                    <span class="icon"></span> Bookings
+                </a>
+                <a href="#settings" class="nav-item" data-tab="settings">
+                    <span class="icon"></span> Settings
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="../" class="back-to-site"> Back to Site</a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="admin-header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn-save" onclick="saveAllChanges()"> Save All Changes</button>
+                    <div class="lang-switcher">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="ru">RU</button>
+                        <button class="lang-btn" data-lang="he">HE</button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard -->
+                <section id="dashboard" class="tab-content active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-services">0</div>
+                            <div class="stat-label">Active Services</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-masters">0</div>
+                            <div class="stat-label">Masters</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-gallery">0</div>
+                            <div class="stat-label">Gallery Photos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-bookings">0</div>
+                            <div class="stat-label">New Bookings</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h2>Quick Actions</h2>
+                        <div class="action-buttons">
+                            <button onclick="quickAddService()">+ Add Service</button>
+                            <button onclick="quickAddMaster()">+ Add Master</button>
+                            <button onclick="quickUploadGallery()">+ Upload Photos</button>
+                            <button onclick="exportData()"> Export Data</button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Services -->
+                <section id="services" class="tab-content">
+                    <div class="section-header">
+                        <h2>Manage Services</h2>
+                        <button class="btn-add" onclick="addService()">+ Add Service</button>
+                    </div>
+                    <div id="services-list" class="items-grid"></div>
+                </section>
+                
+                <!-- Masters -->
+                <section id="masters" class="tab-content">
+                    <div class="section-header">
+                        <h2>Manage Masters</h2>
+                        <button class="btn-add" onclick="addMaster()">+ Add Master</button>
+                    </div>
+                    <div id="masters-list" class="items-grid"></div>
+                </section>
+                
+                <!-- Gallery -->
+                <section id="gallery" class="tab-content">
+                    <div class="section-header">
+                        <h2>Gallery Management</h2>
+                        <button class="btn-add" onclick="document.getElementById('gallery-upload').click()">
+                            + Upload Photos
+                        </button>
+                    </div>
+                    
+                    <div class="upload-zone" id="gallery-dropzone">
+                        <input type="file" id="gallery-upload" multiple accept="image/*" style="display: none;">
+                        <div class="upload-icon">📸</div>
+                        <p>Drag & drop photos here or click to browse</p>
+                        <small>Supports: JPG, PNG, WebP (Max 5MB each)</small>
+                    </div>
+                    
+                    <div id="gallery-grid" class="gallery-grid"></div>
+                </section>
+                
+                <!-- Backgrounds -->
+                <section id="backgrounds" class="tab-content">
+                    <div class="section-header">
+                        <h2>Section Backgrounds</h2>
+                        <button class="btn-preview" onclick="previewBackgrounds()"> Preview</button>
+                    </div>
+                    
+                    <div class="backgrounds-grid">
+                        <!-- Hero Section -->
+                        <div class="bg-card">
+                            <h3>Hero Section</h3>
+                            <div class="bg-preview" id="bg-hero-preview">
+                                <span class="placeholder">No background</span>
+                            </div>
+                            <input type="file" id="bg-hero" accept="image/*,video/*" style="display: none;">
+                            <div class="bg-controls">
+                                <button onclick="document.getElementById('bg-hero').click()">Upload</button>
+                                <button onclick="clearBackground('hero')">Clear</button>
+                            </div>
+                            <input type="text" placeholder="Caption (optional)" id="bg-hero-caption" class="bg-caption">
+                        </div>
+                        
+                        <!-- Services Section -->
+                        <div class="bg-card">
+                            <h3>Services Section</h3>
+                            <div class="bg-preview" id="bg-services-preview">
+                                <span class="placeholder">No background</span>
+                            </div>
+                            <input type="file" id="bg-services" accept="image/*" style="display: none;">
+                            <div class="bg-controls">
+                                <button onclick="document.getElementById('bg-services').click()">Upload</button>
+                                <button onclick="clearBackground('services')">Clear</button>
+                            </div>
+                            <input type="text" placeholder="Caption (optional)" id="bg-services-caption" class="bg-caption">
+                        </div>
+                        
+                        <!-- Masters Section -->
+                        <div class="bg-card">
+                            <h3>Masters Section</h3>
+                            <div class="bg-preview" id="bg-masters-preview">
+                                <span class="placeholder">No background</span>
+                            </div>
+                            <input type="file" id="bg-masters" accept="image/*" style="display: none;">
+                            <div class="bg-controls">
+                                <button onclick="document.getElementById('bg-masters').click()">Upload</button>
+                                <button onclick="clearBackground('masters')">Clear</button>
+                            </div>
+                            <input type="text" placeholder="Caption (optional)" id="bg-masters-caption" class="bg-caption">
+                        </div>
+                        
+                        <!-- Gallery Section -->
+                        <div class="bg-card">
+                            <h3>Gallery Section</h3>
+                            <div class="bg-preview" id="bg-gallery-preview">
+                                <span class="placeholder">No background</span>
+                            </div>
+                            <input type="file" id="bg-gallery" accept="image/*" style="display: none;">
+                            <div class="bg-controls">
+                                <button onclick="document.getElementById('bg-gallery').click()">Upload</button>
+                                <button onclick="clearBackground('gallery')">Clear</button>
+                            </div>
+                            <input type="text" placeholder="Caption (optional)" id="bg-gallery-caption" class="bg-caption">
+                        </div>
+                        
+                        <!-- Booking Section -->
+                        <div class="bg-card">
+                            <h3>Booking Section</h3>
+                            <div class="bg-preview" id="bg-booking-preview">
+                                <span class="placeholder">No background</span>
+                            </div>
+                            <input type="file" id="bg-booking" accept="image/*" style="display: none;">
+                            <div class="bg-controls">
+                                <button onclick="document.getElementById('bg-booking').click()">Upload</button>
+                                <button onclick="clearBackground('booking')">Clear</button>
+                            </div>
+                            <input type="text" placeholder="Caption (optional)" id="bg-booking-caption" class="bg-caption">
+                        </div>
+                        
+                        <!-- Contact Section -->
+                        <div class="bg-card">
+                            <h3>Contact Section</h3>
+                            <div class="bg-preview" id="bg-contact-preview">
+                                <span class="placeholder">No background</span>
+                            </div>
+                            <input type="file" id="bg-contact" accept="image/*" style="display: none;">
+                            <div class="bg-controls">
+                                <button onclick="document.getElementById('bg-contact').click()">Upload</button>
+                                <button onclick="clearBackground('contact')">Clear</button>
+                            </div>
+                            <input type="text" placeholder="Caption (optional)" id="bg-contact-caption" class="bg-caption">
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Bookings -->
+                <section id="bookings" class="tab-content">
+                    <div class="section-header">
+                        <h2>Bookings</h2>
+                        <div class="filter-buttons">
+                            <button class="active">All</button>
+                            <button>Pending</button>
+                            <button>Confirmed</button>
+                            <button>Completed</button>
+                        </div>
+                    </div>
+                    <div id="bookings-table"></div>
+                </section>
+                
+                <!-- Settings -->
+                <section id="settings" class="tab-content">
+                    <div class="settings-grid">
+                        <div class="settings-section">
+                            <h3>Contact Information</h3>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="settings-phone" placeholder="+972 50-123-4567">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="settings-email" placeholder="info@blacksmith.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Address (English)</label>
+                                <input type="text" id="settings-address" placeholder="Rothschild Blvd 50, Tel Aviv">
+                            </div>
+                            <div class="form-group">
+                                <label>Address (Russian)</label>
+                                <input type="text" id="settings-address-ru" placeholder="Ротшильд 50, Тель-Авив">
+                            </div>
+                            <div class="form-group">
+                                <label>Address (Hebrew)</label>
+                                <input type="text" id="settings-address-he" placeholder="רוטשילד 50, תל אביב">
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h3>Business Hours</h3>
+                            <div class="form-group">
+                                <label>Weekdays</label>
+                                <input type="text" id="settings-weekdays" placeholder="09:00-21:00">
+                            </div>
+                            <div class="form-group">
+                                <label>Saturday</label>
+                                <input type="text" id="settings-saturday" placeholder="10:00-20:00">
+                            </div>
+                            <div class="form-group">
+                                <label>Sunday</label>
+                                <input type="text" id="settings-sunday" placeholder="10:00-20:00">
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h3>Social Media</h3>
+                            <div class="form-group">
+                                <label>Facebook</label>
+                                <input type="url" id="settings-facebook" placeholder="https://facebook.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label>Instagram</label>
+                                <input type="url" id="settings-instagram" placeholder="https://instagram.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp</label>
+                                <input type="text" id="settings-whatsapp" placeholder="972501234567">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-actions">
+                        <button class="btn-save" onclick="saveSettings()">Save Settings</button>
+                        <button class="btn-secondary" onclick="resetSettings()">Reset to Defaults</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="../assets/js/modules/storage.js"></script>
+    <script src="../assets/js/modules/notifications.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>
