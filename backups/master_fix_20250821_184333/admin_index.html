@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKSMITH - Панель управления</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 20px 40px;
+            border-bottom: 3px solid #D4AF37;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            color: #D4AF37;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .back-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #D4AF37, #F4E5C2);
+            color: #0A0A0A;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Container */
+        .container {
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #D4AF37;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #D4AF37;
+        }
+        
+        .tab:hover {
+            color: #D4AF37;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Cards */
+        .card {
+            background: rgba(28, 28, 28, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card h2 {
+            color: #D4AF37;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            color: #D4AF37;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #D4AF37;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: #fff;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #D4AF37;
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        .upload-area.dragover {
+            border-color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Preview Grid */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .preview-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: rgba(10, 10, 10, 0.5);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-item:hover .remove-btn {
+            display: flex;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #D4AF37, #F4E5C2);
+            color: #0A0A0A;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-left: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 15px;
+            text-align: left;
+            color: #D4AF37;
+            font-weight: 600;
+        }
+        
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        
+        .table tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+        
+        /* Success Message */
+        .success-msg {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .success-msg.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Service List */
+        .service-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .service-item {
+            background: rgba(10, 10, 10, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .service-icon-input {
+            font-size: 2rem;
+            width: 60px;
+            text-align: center;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .service-details {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .service-details input {
+            background: rgba(28, 28, 28, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 8px;
+            color: #fff;
+        }
+        
+        /* Master Cards */
+        .masters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .master-card-edit {
+            background: rgba(10, 10, 10, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .master-photo-upload {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 3px solid #D4AF37;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .master-photo-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .master-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        
+        .master-photo-upload:hover .photo-overlay {
+            display: flex;
+        }
+    </style>
+
+<style>
+/* Fixed Background Upload Styles */
+.bg-preview {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    background: rgba(10, 10, 10, 0.5);
+    border: 2px dashed rgba(212, 175, 55, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(212, 175, 55, 0.5);
+}
+
+.bg-preview:hover {
+    border-color: #D4AF37;
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.bg-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bg-remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    background: #8B0000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 10;
+}
+
+.bg-preview:hover .bg-remove-btn {
+    display: flex !important;
+}
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1> BLACKSMITH Админ-панель</h1>
+        <a href="../" class="back-btn"> Вернуться на сайт</a>
+    </div>
+    
+    <div class="container">
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="statBookings">0</div>
+                <div class="stat-label">Записей сегодня</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statServices">4</div>
+                <div class="stat-label">Услуг</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statMasters">3</div>
+                <div class="stat-label">Мастеров</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statPhotos">0</div>
+                <div class="stat-label">Фото в галерее</div>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('services')"> Услуги</button>
+            <button class="tab" onclick="switchTab('masters')"> Мастера</button>
+            <button class="tab" onclick="switchTab('gallery')"> Галерея</button>
+            <button class="tab" onclick="switchTab('backgrounds')">Фоны секций</button>
+            
+            <button class="tab" onclick="switchTab('bookings')"> Записи</button>
+            <button class="tab" onclick="switchTab('settings')"> Настройки</button>
+        </div>
+        
+        <!-- Tab Contents -->
+        
+        <!-- Services Tab -->
+        <div class="tab-content active" id="tab-services">
+            <div class="card">
+                <h2>Управление услугами</h2>
+                <div class="service-list" id="servicesList">
+                    <!-- Services will be loaded here -->
+                </div>
+                <button class="btn btn-primary" onclick="addService()">+ Добавить услугу</button>
+                <button class="btn btn-primary" onclick="saveServices()"> Сохранить изменения</button>
+                <div class="success-msg" id="servicesSuccess"> Услуги успешно сохранены!</div>
+            </div>
+        </div>
+        
+        <!-- Masters Tab -->
+        <div class="tab-content" id="tab-masters">
+            <div class="card">
+                <h2>Управление мастерами</h2>
+                <div class="masters-grid" id="mastersGrid">
+                    <!-- Masters will be loaded here -->
+                </div>
+                <button class="btn btn-primary" onclick="saveMasters()"> Сохранить всех мастеров</button>
+                <div class="success-msg" id="mastersSuccess"> Мастера успешно сохранены!</div>
+            </div>
+        </div>
+        
+        <!-- Gallery Tab -->
+        <div class="tab-content" id="tab-gallery">
+            <div class="card">
+                <h2>Галерея</h2>
+                <div class="upload-area" id="galleryUpload">
+                    <input type="file" id="galleryInput" accept="image/*" multiple style="display: none;">
+                    <div class="upload-icon"></div>
+                    <div>Нажмите или перетащите фото сюда</div>
+                    <div style="color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 10px;">
+                        Можно загрузить несколько фото сразу
+                    </div>
+                </div>
+                <div class="preview-grid" id="galleryPreview">
+                    <!-- Gallery previews -->
+                </div>
+                <button class="btn btn-primary" onclick="saveGallery()"> Сохранить галерею</button>
+                <button class="btn btn-secondary" onclick="clearGallery()"> Очистить всё</button>
+                <div class="success-msg" id="gallerySuccess"> Галерея успешно обновлена!</div>
+            </div>
+        </div>
+        
+        <!-- Bookings Tab -->
+        <div class="tab-content" id="tab-bookings">
+            <div class="card">
+                <h2>Записи клиентов</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Имя</th>
+                            <th>Телефон</th>
+                            <th>Услуга</th>
+                            <th>Мастер</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTable">
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: rgba(255,255,255,0.5);">
+                                Пока нет записей
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+        <!-- Backgrounds Tab NEW -->
+        <div class="tab-content" id="tab-backgrounds">
+            <div class="card">
+                <h2>Фоновые изображения секций</h2>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px;">
+                    Загрузите фоновые изображения для каждой секции. Просто выберите файл кнопкой "Выбрать фото".
+                </p>
+                
+                <!-- Services -->
+                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Услуги</h3>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <div id="preview-services" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
+                            Нет изображения
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="file" id="bgfile-services" accept="image/*" onchange="uploadBgImage('services', this)" style="margin-bottom: 10px;">
+                            <br>
+                            <input type="text" id="caption-services" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Masters -->
+                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Мастера</h3>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <div id="preview-masters" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
+                            Нет изображения
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="file" id="bgfile-masters" accept="image/*" onchange="uploadBgImage('masters', this)" style="margin-bottom: 10px;">
+                            <br>
+                            <input type="text" id="caption-masters" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery -->
+                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Галерея</h3>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <div id="preview-gallery" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
+                            Нет изображения
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="file" id="bgfile-gallery" accept="image/*" onchange="uploadBgImage('gallery', this)" style="margin-bottom: 10px;">
+                            <br>
+                            <input type="text" id="caption-gallery" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Booking -->
+                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Запись</h3>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <div id="preview-booking" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
+                            Нет изображения
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="file" id="bgfile-booking" accept="image/*" onchange="uploadBgImage('booking', this)" style="margin-bottom: 10px;">
+                            <br>
+                            <input type="text" id="caption-booking" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact -->
+                <div style="background: rgba(28,28,28,0.5); border: 1px solid rgba(212,175,55,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="color: #D4AF37; margin-bottom: 15px;">Контакты</h3>
+                    <div style="display: flex; gap: 20px; align-items: center;">
+                        <div id="preview-contact" style="width: 200px; height: 120px; background: rgba(10,10,10,0.5); border: 2px dashed rgba(212,175,55,0.3); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: rgba(212,175,55,0.5); overflow: hidden;">
+                            Нет изображения
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="file" id="bgfile-contact" accept="image/*" onchange="uploadBgImage('contact', this)" style="margin-bottom: 10px;">
+                            <br>
+                            <input type="text" id="caption-contact" placeholder="Подпись (необязательно)" style="width: 100%; padding: 8px; background: rgba(10,10,10,0.5); border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveAllBackgrounds()"> Сохранить все фоны</button>
+                <button class="btn btn-secondary" onclick="clearAllBackgrounds()" style="margin-left: 10px;"> Очистить все</button>
+                <div class="success-msg" id="bgSuccessMsg"> Фоны сохранены!</div>
+            </div>
+        </div>
+        <!-- Settings Tab -->
+        <div class="tab-content" id="tab-settings">
+            <div class="card">
+                <h2>Основные настройки</h2>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="text" id="settingsPhone" placeholder="+972 50-123-4567">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="settingsEmail" placeholder="info@blacksmith.com">
+                </div>
+                <div class="form-group">
+                    <label>Адрес</label>
+                    <input type="text" id="settingsAddress" placeholder="Rothschild Blvd 50, Tel Aviv">
+                </div>
+                <div class="form-group">
+                    <label>Часы работы</label>
+                    <textarea id="settingsHours" rows="3" placeholder="Пн-Сб: 9:00-21:00
+Вс: 10:00-20:00"></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="saveSettings()"> Сохранить настройки</button>
+                <div class="success-msg" id="settingsSuccess"> Настройки успешно сохранены!</div>
+            </div>
+        </div>
+    
+        <!-- Masters Background -->
+                    <div class="section-bg-manager">
+                        <h3>Мастера</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('masters')">
+                                <input type="file" id="bg-masters" accept="image/*" style="display: none;" onchange="handleBgUpload('masters', this)">
+                                <div class="bg-preview-placeholder" id="preview-masters">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('masters', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-masters" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Background -->
+                    <div class="section-bg-manager">
+                        <h3>Галерея</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('gallery')">
+                                <input type="file" id="bg-gallery" accept="image/*" style="display: none;" onchange="handleBgUpload('gallery', this)">
+                                <div class="bg-preview-placeholder" id="preview-gallery">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('gallery', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-gallery" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Booking Background -->
+                    <div class="section-bg-manager">
+                        <h3>Запись</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('booking')">
+                                <input type="file" id="bg-booking" accept="image/*" style="display: none;" onchange="handleBgUpload('booking', this)">
+                                <div class="bg-preview-placeholder" id="preview-booking">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('booking', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-booking" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Background -->
+                    <div class="section-bg-manager">
+                        <h3>Контакты</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('contact')">
+                                <input type="file" id="bg-contact" accept="image/*" style="display: none;" onchange="handleBgUpload('contact', this)">
+                                <div class="bg-preview-placeholder" id="preview-contact">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('contact', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-contact" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveSectionBackgrounds()">Сохранить фоны</button>
+                <div class="success-msg" id="backgroundsSuccess">Фоны успешно сохранены!</div>
+            </div>
+        </div>
+
+        <!-- Masters Background -->
+                    <div class="section-bg-manager">
+                        <h3>Мастера</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('masters')">
+                                <input type="file" id="bg-masters" accept="image/*" style="display: none;" onchange="handleBgUpload('masters', this)">
+                                <div class="bg-preview-placeholder" id="preview-masters">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('masters', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-masters" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Gallery Background -->
+                    <div class="section-bg-manager">
+                        <h3>Галерея</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('gallery')">
+                                <input type="file" id="bg-gallery" accept="image/*" style="display: none;" onchange="handleBgUpload('gallery', this)">
+                                <div class="bg-preview-placeholder" id="preview-gallery">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('gallery', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-gallery" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Booking Background -->
+                    <div class="section-bg-manager">
+                        <h3>Запись</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('booking')">
+                                <input type="file" id="bg-booking" accept="image/*" style="display: none;" onchange="handleBgUpload('booking', this)">
+                                <div class="bg-preview-placeholder" id="preview-booking">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('booking', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-booking" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Background -->
+                    <div class="section-bg-manager">
+                        <h3>Контакты</h3>
+                        <div class="bg-upload-area">
+                            <div class="bg-preview" onclick="selectBgImage('contact')">
+                                <input type="file" id="bg-contact" accept="image/*" style="display: none;" onchange="handleBgUpload('contact', this)">
+                                <div class="bg-preview-placeholder" id="preview-contact">
+                                    Нажмите для загрузки
+                                </div>
+                                <button class="bg-remove-btn" onclick="removeBg('contact', event)">×</button>
+                            </div>
+                            <input type="text" class="bg-caption-input" id="caption-contact" placeholder="Подпись к изображению (необязательно)">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveSectionBackgrounds()">Сохранить фоны</button>
+                <div class="success-msg" id="backgroundsSuccess">Фоны успешно сохранены!</div>
+            </div>
+        </div>
+</div>
+    
+    <script>
+        // Load data from localStorage
+        let adminData = {
+            services: [],
+            masters: [],
+            gallery: [],
+            bookings: [],
+            settings: {}
+        };
+        
+        function loadData() {
+            const saved = localStorage.getItem('blacksmithData');
+            if (saved) {
+                adminData = JSON.parse(saved);
+            } else {
+                // Default data
+                adminData = {
+                    services: [
+                        {id: 1, icon: '', title: 'Классический массаж', desc: 'Расслабляющий массаж всего тела', price: '350'},
+                        {id: 2, icon: '', title: 'Спортивный массаж', desc: 'Глубокая проработка мышц', price: '450'},
+                        {id: 3, icon: '', title: 'Горячие камни', desc: 'Массаж с базальтовыми камнями', price: '500'},
+                        {id: 4, icon: '', title: 'Тайский массаж', desc: 'Традиционная тайская техника', price: '550'}
+                    ],
+                    masters: [
+                        {id: 1, name: 'Александр Петров', spec: 'Мастер спортивного массажа', experience: '15 лет опыта', rating: '', photo: null},
+                        {id: 2, name: 'Михаил Чен', spec: 'Специалист тайского массажа', experience: '12 лет опыта', rating: '', photo: null},
+                        {id: 3, name: 'Давид Коваленко', spec: 'Классический и лечебный массаж', experience: '10 лет опыта', rating: '', photo: null}
+                    ],
+                    gallery: [],
+                    bookings: [],
+                    settings: {
+                        phone: '+972 50-123-4567',
+                        email: 'info@blacksmith-massage.com',
+                        address: 'Rothschild Blvd 50, Tel Aviv',
+                        hours: 'Пн-Сб: 9:00-21:00\nВс: 10:00-20:00'
+                    }
+                };
+            }
+            updateUI();
+        }
+        
+        // Save data
+        function saveData() {
+            localStorage.setItem('blacksmithData', JSON.stringify(adminData));
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+        
+        // Update UI
+        function updateUI() {
+            updateStats();
+            loadServices();
+            loadMasters();
+            loadGallery();
+            loadBookings();
+            loadSettings();
+        }
+        
+        // Update statistics
+        function updateStats() {
+            document.getElementById('statBookings').textContent = adminData.bookings.length;
+            document.getElementById('statServices').textContent = adminData.services.length;
+            document.getElementById('statMasters').textContent = adminData.masters.length;
+            document.getElementById('statPhotos').textContent = adminData.gallery.length;
+        }
+        
+        // Services
+        function loadServices() {
+            const container = document.getElementById('servicesList');
+            container.innerHTML = adminData.services.map(service => `
+                <div class="service-item" data-id="${service.id}">
+                    <input type="text" class="service-icon-input" value="${service.icon}" placeholder="Иконка">
+                    <div class="service-details">
+                        <input type="text" value="${service.title}" placeholder="Название услуги">
+                        <input type="text" value="${service.desc}" placeholder="Описание">
+                    </div>
+                    <input type="text" value="${service.price}" placeholder="Цена" style="width: 100px;">
+                </div>
+            `).join('');
+        }
+        
+        function addService() {
+            const newService = {
+                id: Date.now(),
+                icon: '',
+                title: 'Новая услуга',
+                desc: 'Описание услуги',
+                price: '400'
+            };
+            adminData.services.push(newService);
+            loadServices();
+        }
+        
+        function saveServices() {
+            const items = document.querySelectorAll('.service-item');
+            adminData.services = Array.from(items).map(item => {
+                const inputs = item.querySelectorAll('input');
+                return {
+                    id: parseInt(item.dataset.id),
+                    icon: inputs[0].value,
+                    title: inputs[1].value,
+                    desc: inputs[2].value,
+                    price: inputs[3].value
+                };
+            });
+            saveData();
+            showSuccess('servicesSuccess');
+        }
+        
+        // Masters
+        function loadMasters() {
+            const container = document.getElementById('mastersGrid');
+            container.innerHTML = adminData.masters.map(master => `
+                <div class="master-card-edit" data-id="${master.id}">
+                    <div class="master-photo-upload" onclick="uploadMasterPhoto(${master.id})">
+                        ${master.photo ? 
+                            `<img src="${master.photo}" alt="${master.name}">` :
+                            `<div class="master-photo-placeholder"></div>`
+                        }
+                        <div class="photo-overlay"> Изменить фото</div>
+                    </div>
+                    <input type="file" id="masterPhoto${master.id}" accept="image/*" style="display: none;" onchange="handleMasterPhoto(${master.id})">
+                    <div class="form-group">
+                        <input type="text" value="${master.name}" placeholder="Имя мастера">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" value="${master.spec}" placeholder="Специализация">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" value="${master.experience}" placeholder="Опыт работы">
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function uploadMasterPhoto(masterId) {
+            document.getElementById('masterPhoto' + masterId).click();
+        }
+        
+        function handleMasterPhoto(masterId) {
+            const input = document.getElementById('masterPhoto' + masterId);
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const master = adminData.masters.find(m => m.id === masterId);
+                    if (master) {
+                        master.photo = e.target.result;
+                        loadMasters();
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function saveMasters() {
+            const cards = document.querySelectorAll('.master-card-edit');
+            cards.forEach(card => {
+                const id = parseInt(card.dataset.id);
+                const inputs = card.querySelectorAll('input[type="text"]');
+                const master = adminData.masters.find(m => m.id === id);
+                if (master) {
+                    master.name = inputs[0].value;
+                    master.spec = inputs[1].value;
+                    master.experience = inputs[2].value;
+                }
+            });
+            saveData();
+            showSuccess('mastersSuccess');
+        }
+        
+        // Gallery
+        const galleryUpload = document.getElementById('galleryUpload');
+        const galleryInput = document.getElementById('galleryInput');
+        
+        galleryUpload.addEventListener('click', () => galleryInput.click());
+        
+        galleryUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            galleryUpload.classList.add('dragover');
+        });
+        
+        galleryUpload.addEventListener('dragleave', () => {
+            galleryUpload.classList.remove('dragover');
+        });
+        
+        galleryUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            galleryUpload.classList.remove('dragover');
+            handleGalleryFiles(e.dataTransfer.files);
+        });
+        
+        galleryInput.addEventListener('change', (e) => {
+            handleGalleryFiles(e.target.files);
+        });
+        
+        function handleGalleryFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        adminData.gallery.push({
+                            id: Date.now() + Math.random(),
+                            url: e.target.result,
+                            title: file.name
+                        });
+                        loadGallery();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function loadGallery() {
+            const preview = document.getElementById('galleryPreview');
+            preview.innerHTML = adminData.gallery.map((img, index) => `
+                <div class="preview-item">
+                    <img src="${img.url}" alt="${img.title}">
+                    <button class="remove-btn" onclick="removeGalleryImage(${index})"></button>
+                </div>
+            `).join('');
+        }
+        
+        function removeGalleryImage(index) {
+            adminData.gallery.splice(index, 1);
+            loadGallery();
+        }
+        
+        function saveGallery() {
+            saveData();
+            showSuccess('gallerySuccess');
+        }
+        
+        function clearGallery() {
+            if (confirm('Удалить все фото из галереи?')) {
+                adminData.gallery = [];
+                loadGallery();
+            }
+        }
+        
+        // Bookings
+        function loadBookings() {
+            const table = document.getElementById('bookingsTable');
+            if (adminData.bookings.length > 0) {
+                table.innerHTML = adminData.bookings.map(booking => `
+                    <tr>
+                        <td>${booking.datetime || 'Не указано'}</td>
+                        <td>${booking.name}</td>
+                        <td>${booking.phone}</td>
+                        <td>${getServiceName(booking.service)}</td>
+                        <td>${getMasterName(booking.master)}</td>
+                        <td><span style="color: #4CAF50;"> Новая</span></td>
+                    </tr>
+                `).join('');
+            } else {
+                table.innerHTML = '<tr><td colspan="6" style="text-align: center; color: rgba(255,255,255,0.5);">Пока нет записей</td></tr>';
+            }
+        }
+        
+        function getServiceName(id) {
+            const service = adminData.services.find(s => s.id == id);
+            return service ? service.title : 'Не выбрано';
+        }
+        
+        function getMasterName(id) {
+            const master = adminData.masters.find(m => m.id == id);
+            return master ? master.name : 'Любой мастер';
+        }
+        
+        // Settings
+        function loadSettings() {
+            document.getElementById('settingsPhone').value = adminData.settings.phone || '';
+            document.getElementById('settingsEmail').value = adminData.settings.email || '';
+            document.getElementById('settingsAddress').value = adminData.settings.address || '';
+            document.getElementById('settingsHours').value = adminData.settings.hours || '';
+        }
+        
+        function saveSettings() {
+            adminData.settings = {
+                phone: document.getElementById('settingsPhone').value,
+                email: document.getElementById('settingsEmail').value,
+                address: document.getElementById('settingsAddress').value,
+                hours: document.getElementById('settingsHours').value
+            };
+            saveData();
+            showSuccess('settingsSuccess');
+        }
+        
+        // Show success message
+        function showSuccess(id) {
+            const msg = document.getElementById(id);
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+        }
+        
+        // Initialize
+        loadData();
+    </script>
+<script>
+// Admin panel SVG icons
+document.addEventListener('DOMContentLoaded', function() {
+    const svgIcons = {
+        services: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 6c0-1.1-.9-2-2-2s-2 .9-2 2c0 .3.1.6.2.9L12 12l-4.2-5.1c.1-.3.2-.6.2-.9 0-1.1-.9-2-2-2s-2 .9-2 2c0 .7.4 1.4 1 1.7V20c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7.7c.6-.3 1-1 1-1.7z"/></svg>',
+        masters: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>',
+        gallery: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>',
+        bookings: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>',
+        settings: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>'
+    };
+    
+    // Update tab icons
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach((tab, index) => {
+        const icons = [svgIcons.services, svgIcons.masters, svgIcons.gallery, svgIcons.bookings, svgIcons.settings];
+        if (icons[index]) {
+            tab.innerHTML = icons[index] + ' ' + tab.textContent;
+        }
+    });
+    
+    // Update upload icon
+    const uploadIcon = document.querySelector('.upload-icon');
+    if (uploadIcon) {
+        uploadIcon.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="#D4AF37"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>';
+    }
+    
+    // Update remove button icons
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.innerHTML = '';
+    });
+});
+
+// Background Upload Functions - FIXED
+window.selectBgImage = function(section) {
+    const input = document.getElementById('bg-' + section);
+    if (input) input.click();
+};
+
+window.handleBgUpload = function(section, input) {
+    const file = input.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Save to storage
+            if (!window.sectionBackgrounds) {
+                window.sectionBackgrounds = {};
+            }
+            if (!window.sectionBackgrounds[section]) {
+                window.sectionBackgrounds[section] = {};
+            }
+            window.sectionBackgrounds[section].image = e.target.result;
+            
+            // Update preview
+            const preview = document.getElementById('preview-' + section);
+            if (preview) {
+                preview.innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
+                preview.parentElement.querySelector('.bg-remove-btn').style.display = 'flex';
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+window.removeBg = function(section, event) {
+    if (event) event.stopPropagation();
+    if (window.sectionBackgrounds && window.sectionBackgrounds[section]) {
+        window.sectionBackgrounds[section] = { image: null, caption: '' };
+    }
+    const preview = document.getElementById('preview-' + section);
+    if (preview) {
+        preview.innerHTML = 'Нажмите для загрузки';
+    }
+    const caption = document.getElementById('caption-' + section);
+    if (caption) caption.value = '';
+    const btn = document.querySelector('#preview-' + section).parentElement.querySelector('.bg-remove-btn');
+    if (btn) btn.style.display = 'none';
+};
+
+window.saveSectionBackgrounds = function() {
+    if (!window.sectionBackgrounds) {
+        window.sectionBackgrounds = {};
+    }
+    
+    // Collect all captions
+    ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(section => {
+        const captionInput = document.getElementById('caption-' + section);
+        if (captionInput) {
+            if (!window.sectionBackgrounds[section]) {
+                window.sectionBackgrounds[section] = {};
+            }
+            window.sectionBackgrounds[section].caption = captionInput.value;
+        }
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('sectionBackgrounds', JSON.stringify(window.sectionBackgrounds));
+    
+    // Show success
+    const successMsg = document.getElementById('backgroundsSuccess');
+    if (successMsg) {
+        successMsg.classList.add('show');
+        setTimeout(() => successMsg.classList.remove('show'), 3000);
+    }
+    alert('Фоны сохранены!');
+};
+
+// Load existing backgrounds on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const saved = localStorage.getItem('sectionBackgrounds');
+    if (saved) {
+        window.sectionBackgrounds = JSON.parse(saved);
+        
+        // Update all previews
+        ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(section => {
+            if (window.sectionBackgrounds[section] && window.sectionBackgrounds[section].image) {
+                const preview = document.getElementById('preview-' + section);
+                if (preview) {
+                    preview.innerHTML = '<img src="' + window.sectionBackgrounds[section].image + '" style="width:100%;height:100%;object-fit:cover;">';
+                }
+                const caption = document.getElementById('caption-' + section);
+                if (caption && window.sectionBackgrounds[section].caption) {
+                    caption.value = window.sectionBackgrounds[section].caption;
+                }
+            }
+        });
+    }
+});
+    
+        // Background Images System - SIMPLE VERSION
+        var bgImages = {};
+        
+        function uploadBgImage(section, input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    bgImages[section] = e.target.result;
+                    document.getElementById('preview-' + section).innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function saveAllBackgrounds() {
+            var data = {};
+            ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(function(section) {
+                data[section] = {
+                    image: bgImages[section] || null,
+                    caption: document.getElementById('caption-' + section).value
+                };
+            });
+            localStorage.setItem('sectionBackgrounds', JSON.stringify(data));
+            document.getElementById('bgSuccessMsg').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('bgSuccessMsg').style.display = 'none';
+            }, 3000);
+        }
+        
+        function clearAllBackgrounds() {
+            if (confirm('Удалить все фоновые изображения?')) {
+                bgImages = {};
+                ['services', 'masters', 'gallery', 'booking', 'contact'].forEach(function(section) {
+                    document.getElementById('preview-' + section).innerHTML = 'Нет изображения';
+                    document.getElementById('caption-' + section).value = '';
+                    document.getElementById('bgfile-' + section).value = '';
+                });
+                localStorage.removeItem('sectionBackgrounds');
+            }
+        }
+        
+        // Load saved backgrounds
+        window.addEventListener('load', function() {
+            var saved = localStorage.getItem('sectionBackgrounds');
+            if (saved) {
+                var data = JSON.parse(saved);
+                Object.keys(data).forEach(function(section) {
+                    if (data[section].image) {
+                        bgImages[section] = data[section].image;
+                        document.getElementById('preview-' + section).innerHTML = '<img src="' + data[section].image + '" style="width:100%;height:100%;object-fit:cover;">';
+                    }
+                    if (data[section].caption) {
+                        document.getElementById('caption-' + section).value = data[section].caption;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
